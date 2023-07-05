@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,52 +13,51 @@ export class LoanStatusComponent implements OnInit {
   loanId!: string;
   loanStatus: string = '';
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private route: ActivatedRoute) {
     this.loanForm = this.formBuilder.group({
-      personType: '',
-      document: '',
       name: '',
       documentNumber: '',
-      activeDebt: '',
-      loanValue: '',
     });
   }
 
   ngOnInit() {
-    // Nada a ser feito aqui
+    // Carregar o nome e o número do documento dos parâmetros de consulta
+    this.route.queryParams.subscribe(params => {
+      this.loanForm.patchValue({
+        name: params['name'],
+        documentNumber: params['documentNumber'],
+      });
+      if (params['name'] && params['documentNumber']) {
+        this.checkLoanStatus();
+      }
+    });
   }
 
   onSubmit() {
     this.http.post('http://localhost:3000/loan', this.loanForm.value)
-      .pipe(
-        map((response: any) => {
-          this.loanId = response.loanId;
-          this.checkLoanStatus();
-        }),
-        catchError(error => {
-          console.error('Error:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe();
+      .toPromise()
+      .then((response: any) => {
+        this.loanId = response.loanId;
+        this.checkLoanStatus();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   checkLoanStatus() {
-    this.http.get(`http://localhost:3000/loan-status/${this.loanId}`)
-      .pipe(
-        map((response: any) => {
+    const name = this.loanForm.get('name')?.value;
+    const documentNumber = this.loanForm.get('documentNumber')?.value;
+
+    if (name && documentNumber) {
+      this.http.get(`http://localhost:3000/loan-status?name=${name}&documentNumber=${documentNumber}`)
+        .toPromise()
+        .then((response: any) => {
           this.loanStatus = response.status;
-        }),
-        catchError(error => {
-          console.error('Error:', error);
-          return throwError(error);
         })
-      )
-      .subscribe(
-        () => {},
-        error => {
-          console.error('Subscription error:', error);
-        }
-      );
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
   }
 }
