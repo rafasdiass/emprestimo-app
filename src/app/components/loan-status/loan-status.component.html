@@ -1,5 +1,12 @@
-
-<div>
-  <h2>Status do Empréstimo</h2>
-  <p>{{loanStatus}}</p>
-</div>
+<form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+  <label>
+    Tipo de Pessoa:
+    <input type="text" formControlName="personType">
+  </label>
+  <label>
+    Documento:
+    <input type="text" formControlName="document">
+  </label>
+  <!-- Adicione mais campos aqui conforme necessário -->
+  <button type="submit">Enviar</button>
+</form>

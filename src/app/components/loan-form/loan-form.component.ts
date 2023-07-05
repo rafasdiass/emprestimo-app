@@ -9,12 +9,10 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./loan-form.component.scss']
 })
 export class LoanFormComponent implements OnInit {
-  loanForm: FormGroup = this.formBuilder.group({});
-  errorMessage: string;
+  loanForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
-
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.loanForm = this.formBuilder.group({
       personType: ['', Validators.required],
       document: ['', Validators.required],
@@ -25,15 +23,18 @@ export class LoanFormComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
   onSubmit() {
     if (this.loanForm.valid) {
       this.http.post('http://localhost:3000/loan', this.loanForm.value)
       .pipe(map((response: any) => {
-        if (response.status === 'success') {
-          console.log(response.message);
+        if (response.status === 'approved') {
+          console.log('Empréstimo aprovado');
         } else {
-          this.errorMessage = response.error;  // Adicione esta linha
-          console.log(response.error);
+          this.errorMessage = response.message;
+          console.log('Empréstimo rejeitado:', response.message);
         }
       }))
       .subscribe();
