@@ -1,32 +1,27 @@
-<div class="container">
-  <h1 class="text-center mt-5">Formulário de Empréstimo</h1>
-  <form [formGroup]="loanForm" (ngSubmit)="onSubmit()" class="mt-5">
-    <div class="mb-3">
-      <label class="form-label">Tipo de Pessoa</label>
-      <select class="form-select" formControlName="personType">
-        <option value="">Selecione</option>
-        <option value="PF">Pessoa Física</option>
-        <option value="PJ">Pessoa Jurídica</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Documento</label>
-      <input type="text" class="form-control" formControlName="document">
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Nome</label>
-      <input type="text" class="form-control" formControlName="name">
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Dívida Ativa</label>
-      <input type="number" class="form-control" formControlName="activeDebt">
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Valor do Empréstimo</label>
-      <input type="number" class="form-control" formControlName="loanValue">
-    </div>
-    <button type="submit" class="btn btn-primary mb-3" [disabled]="!loanForm.valid || !isDocumentValid">
-      <i class="bi bi-check2-circle"></i> Enviar
-    </button>
-  </form>
-</div>
+<form class="loan-form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="person-type">Tipo de pessoa:</label>
+    <select id="person-type" [(ngModel)]="loanForm.personType" (change)="onPersonTypeChange()" name="personType">
+      <option value="PF">Pessoa Física</option>
+      <option value="PJ">Pessoa Jurídica</option>
+    </select>
+  </div>
+  <div>
+    <label for="document">Documento:</label>
+    <input id="document" type="text" [(ngModel)]="loanForm.document" (change)="onDocumentChange()" name="document">
+    <div *ngIf="!isDocumentValid">Documento (CPF/CNPJ) inválido!</div>
+  </div>
+  <div>
+    <label for="name">Nome:</label>
+    <input id="name" type="text" [(ngModel)]="loanForm.name" name="name">
+  </div>
+  <div>
+    <label for="activeDebt">Dívida ativa:</label>
+    <input id="activeDebt" type="number" [(ngModel)]="loanForm.activeDebt" name="activeDebt">
+  </div>
+  <div>
+    <label for="loanValue">Valor do empréstimo:</label>
+    <input id="loanValue" type="number" [(ngModel)]="loanForm.loanValue" name="loanValue">
+  </div>
+  <button type="submit">Enviar</button>
+</form>

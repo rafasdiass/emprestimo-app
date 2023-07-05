@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { LoanService } from '../../services/loan.service';
 
 @Component({
   selector: 'app-loan-status',
@@ -13,7 +13,7 @@ export class LoanStatusComponent implements OnInit {
   loanId!: string;
   loanStatus: string = '';
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private loanService: LoanService) {
     this.loanForm = this.formBuilder.group({
       name: '',
       documentNumber: '',
@@ -34,7 +34,7 @@ export class LoanStatusComponent implements OnInit {
   }
 
   onSubmit() {
-    this.http.post('http://localhost:3000/loan', this.loanForm.value)
+    this.loanService.createLoan(this.loanForm.value)
       .toPromise()
       .then((response: any) => {
         this.loanId = response.loanId;
@@ -50,7 +50,7 @@ export class LoanStatusComponent implements OnInit {
     const documentNumber = this.loanForm.get('documentNumber')?.value;
 
     if (name && documentNumber) {
-      this.http.get(`http://localhost:3000/loan-status?name=${name}&documentNumber=${documentNumber}`)
+      this.loanService.getLoanStatus(documentNumber)
         .toPromise()
         .then((response: any) => {
           this.loanStatus = response.status;

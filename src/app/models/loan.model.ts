@@ -1,5 +1,7 @@
+export type PersonType = 'PF' | 'PJ';
+
 export interface Loan {
-  personType: 'PF' | 'PJ';
+  personType: PersonType;
   document: string;
   name: string;
   documentNumber: string;

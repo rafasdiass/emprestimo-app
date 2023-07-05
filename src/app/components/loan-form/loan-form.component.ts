@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { cpfValidator, cnpjValidator } from '../../validator/custom-validators';
-import { Loan } from '../../models/loan.model';
+import { cpf as CPF, cnpj as CNPJ } from 'cpf-cnpj-validator';
+import { Loan, PersonType } from '../../models/loan.model';
+import { LoanService } from '../../services/loan.service';
 
 @Component({
   selector: 'app-loan-form',
@@ -10,18 +9,17 @@ import { Loan } from '../../models/loan.model';
   styleUrls: ['./loan-form.component.scss']
 })
 export class LoanFormComponent {
-  loanForm: FormGroup;
+  loanForm: Partial<Loan> = {
+    personType: 'PF', // define um valor inicial para evitar undefined
+    document: '',
+    name: '',
+    activeDebt: 0,
+    loanValue: 0
+  };
+
   isDocumentValid: boolean = false;
 
-  constructor(private http: HttpClient) {
-    this.loanForm = new FormGroup({
-      personType: new FormControl('', Validators.required),
-      document: new FormControl(null, Validators.required),
-      name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      activeDebt: new FormControl('', Validators.required),
-      loanValue: new FormControl('', Validators.required)
-    });
-  }
+  constructor(private loanService: LoanService) {}
 
   onPersonTypeChange() {
     this.updateDocumentValidity();
@@ -32,61 +30,48 @@ export class LoanFormComponent {
   }
 
   private updateDocumentValidity() {
-    const personTypeControl = this.loanForm.get('personType');
-    const documentControl = this.loanForm.get('document');
+    const document = this.loanForm.document;
 
-    if (personTypeControl && documentControl) {
-      const personType = personTypeControl.value;
-      const document = documentControl.value;
-
-      if (personType === 'PF') {
-        this.isDocumentValid = cpfValidator()(document) === null;
-        documentControl.setValidators([Validators.required, cpfValidator()]);
-      } else if (personType === 'PJ') {
-        this.isDocumentValid = cnpjValidator()(document) === null;
-        documentControl.setValidators([Validators.required, cnpjValidator()]);
-      } else {
-        this.isDocumentValid = false;
-        documentControl.setValidators(null);
-      }
-
-      documentControl.updateValueAndValidity();
+    if (this.loanForm.personType === 'PF') {
+      this.isDocumentValid = CPF.isValid(document || '');
+    } else if (this.loanForm.personType === 'PJ') {
+      this.isDocumentValid = CNPJ.isValid(document || '');
+    } else {
+      this.isDocumentValid = false;
     }
   }
 
   onSubmit() {
-    if (this.loanForm.valid && this.isDocumentValid) {
-      const loanValue = this.loanForm.get('loanValue')?.value;
-      const activeDebt = this.loanForm.get('activeDebt')?.value;
+    const loanValue = Number(this.loanForm.loanValue);
+    const activeDebt = Number(this.loanForm.activeDebt);
 
+    if (this.isDocumentValid && activeDebt && loanValue) {
       if (loanValue > 50000 || loanValue > activeDebt / 2) {
         alert('Empréstimo negado');
         return;
       }
 
       const loanData: Loan = {
-        personType: this.loanForm.get('personType')?.value,
-        document: this.loanForm.get('document')?.value,
-        name: this.loanForm.get('name')?.value,
-        documentNumber: '',
-        activeDebt: this.loanForm.get('activeDebt')?.value,
+        personType: this.loanForm.personType as PersonType,
+        document: this.loanForm.document!,
+        name: this.loanForm.name!,
+        documentNumber: this.loanForm.document!,
+        activeDebt: activeDebt,
         loanValue: loanValue
       };
 
-      this.http.post<any>('http://localhost:3000/loan', loanData)
-        .toPromise()
-        .then((response: any) => {
-          if (response && response.documentNumber) {
-            alert('Empréstimo aprovado');
-          } else {
-            alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
-          }
-
-
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      this.loanService.createLoan(loanData)
+      .toPromise()
+      .then((response: any) => {
+        if (response && response.message) {
+          alert(response.message);
+        } else {
+          alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     }
   }
 }

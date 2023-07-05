@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoanFormComponent } from './components/loan-form/loan-form.component';
 import { LoanStatusComponent } from './components/loan-status/loan-status.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // Importe o RouterModule
@@ -23,7 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // Importe o RouterModul
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule,
-    NgbModule 
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
