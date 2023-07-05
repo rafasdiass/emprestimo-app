@@ -45,12 +45,13 @@ export class LoanFormComponent implements OnInit {
             this.isDocumentValid = this.documentControl?.valid ?? false; // Atualiza a validade do campo "Documento"
           }
         });
+
       }
     }
   }
 
   onSubmit() {
-    if (this.loanForm) {
+    if (this.loanForm && this.loanForm.valid && this.isDocumentValid) {
       const loanValue = this.loanForm.get('loanValue')?.value;
       const activeDebt = this.loanForm.get('activeDebt')?.value;
 
@@ -74,4 +75,5 @@ export class LoanFormComponent implements OnInit {
         });
     }
   }
+
 }
