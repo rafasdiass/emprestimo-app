@@ -38,4 +38,8 @@
 
     <button type="submit" class="btn btn-primary mt-3">Solicitar Empréstimo</button>
   </form>
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+
 </div>

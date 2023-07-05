@@ -9,7 +9,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./loan-form.component.scss']
 })
 export class LoanFormComponent implements OnInit {
-  loanForm: FormGroup = this.formBuilder.group({}); // inicialização aqui
+  loanForm: FormGroup = this.formBuilder.group({});
+  errorMessage: string;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
 
@@ -31,6 +32,7 @@ export class LoanFormComponent implements OnInit {
         if (response.status === 'success') {
           console.log(response.message);
         } else {
+          this.errorMessage = response.error;  // Adicione esta linha
           console.log(response.error);
         }
       }))
