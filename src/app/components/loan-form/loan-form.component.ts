@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loan-form',
@@ -12,7 +13,7 @@ export class LoanFormComponent implements OnInit {
   loanForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
     this.loanForm = this.formBuilder.group({
       personType: ['', Validators.required],
       document: ['', Validators.required],
@@ -32,9 +33,11 @@ export class LoanFormComponent implements OnInit {
       .pipe(map((response: any) => {
         if (response.status === 'approved') {
           console.log('Empréstimo aprovado');
+          this.router.navigate(['/status-emprestimo', 'approved']);
         } else {
           this.errorMessage = response.message;
           console.log('Empréstimo rejeitado:', response.message);
+          this.router.navigate(['/status-emprestimo', 'rejected']);
         }
       }))
       .subscribe();

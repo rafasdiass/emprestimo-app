@@ -5,8 +5,7 @@ import { LoanStatusComponent } from './components/loan-status/loan-status.compon
 
 const routes: Routes = [
   { path: 'solicitar-emprestimo', component: LoanFormComponent },
-  { path: 'status-emprestimo/:id', component: LoanStatusComponent },
-  // Outras rotas...
+  { path: 'status-emprestimo', component: LoanStatusComponent },
 ];
 
 @NgModule({

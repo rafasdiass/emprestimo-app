@@ -1,12 +1,20 @@
-<form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
-  <label>
-    Tipo de Pessoa:
-    <input type="text" formControlName="personType">
-  </label>
-  <label>
-    Documento:
-    <input type="text" formControlName="document">
-  </label>
-  <!-- Adicione mais campos aqui conforme necessário -->
-  <button type="submit">Enviar</button>
-</form>
+<div class="container">
+  <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Nome</label>
+      <input type="text" formControlName="name" id="name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="document">Documento</label>
+      <input type="text" formControlName="document" id="document" class="form-control">
+    </div>
+    <!-- Adicione outros campos conforme necessário -->
+
+    <button type="submit" class="btn btn-primary">Pesquisar</button>
+  </form>
+
+  <div *ngIf="loanStatus !== ''">
+    <h3>Status do Empréstimo:</h3>
+    <p>{{ loanStatus }}</p>
+  </div>
+</div>
