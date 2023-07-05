@@ -4,8 +4,9 @@ import { LoanFormComponent } from './components/loan-form/loan-form.component';
 import { LoanStatusComponent } from './components/loan-status/loan-status.component';
 
 const routes: Routes = [
-  { path: 'solicitar-emprestimo', component: LoanFormComponent },
-  { path: 'status-emprestimo', component: LoanStatusComponent },
+  { path: 'loan-form', component: LoanFormComponent },
+  { path: 'loan-status', component: LoanStatusComponent },
+  { path: '', redirectTo: '/loan-form', pathMatch: 'full' }, // Página inicial redireciona para o formulário de empréstimo
 ];
 
 @NgModule({
