@@ -61,17 +61,14 @@ export class LoanFormComponent {
       };
 
       this.loanService.createLoan(loanData)
-      .toPromise()
-      .then((response: any) => {
-        if (response && response.message) {
-          alert(response.message);
-        } else {
-          alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+        .subscribe((response: any) => {
+          if (response && response.message) {
+            alert(response.message);
+          } else {
+            alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
+          }
+        }, (error) => {
+          console.error('Error:', error);
+        });
     }
-  }
-}
+  }}
