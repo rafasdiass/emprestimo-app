@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { cpfValidator, cnpjValidator } from '../../validator/custom-validators';
 import { Loan } from '../../models/loan.model';
 
@@ -11,47 +9,53 @@ import { Loan } from '../../models/loan.model';
   templateUrl: './loan-form.component.html',
   styleUrls: ['./loan-form.component.scss']
 })
-export class LoanFormComponent implements OnInit {
-  loanForm!: FormGroup;
-  loanId!: string;
-  loanStatus: string = '';
-  documentControl: AbstractControl | null = null;
-  previousDocumentType: string = '';
-  isDocumentValid: boolean = false; // Adicionada propriedade para rastrear a validade do campo "Documento"
+export class LoanFormComponent {
+  loanForm: FormGroup;
+  isDocumentValid: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
-
-  ngOnInit() {
-    this.loanForm = this.formBuilder.group({
-      personType: ['', Validators.required],
-      document: [null, Validators.required],
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      activeDebt: ['', Validators.required],
-      loanValue: ['', Validators.required],
+  constructor(private http: HttpClient) {
+    this.loanForm = new FormGroup({
+      personType: new FormControl('', Validators.required),
+      document: new FormControl(null, Validators.required),
+      name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      activeDebt: new FormControl('', Validators.required),
+      loanValue: new FormControl('', Validators.required)
     });
+  }
 
-    if (this.loanForm) {
-      this.documentControl = this.loanForm.get('document');
-      if (this.documentControl) {
-        this.documentControl.valueChanges.subscribe((personType: string) => {
-          if (personType !== this.previousDocumentType) {
-            this.previousDocumentType = personType;
-            if (personType === 'PF') {
-              this.documentControl?.setValidators([Validators.required, cpfValidator()]);
-            } else {
-              this.documentControl?.setValidators([Validators.required, cnpjValidator()]);
-            }
-            this.documentControl?.updateValueAndValidity();
-            this.isDocumentValid = this.documentControl?.valid ?? false; // Atualiza a validade do campo "Documento"
-          }
-        });
+  onPersonTypeChange() {
+    this.updateDocumentValidity();
+  }
 
+  onDocumentChange() {
+    this.updateDocumentValidity();
+  }
+
+  private updateDocumentValidity() {
+    const personTypeControl = this.loanForm.get('personType');
+    const documentControl = this.loanForm.get('document');
+
+    if (personTypeControl && documentControl) {
+      const personType = personTypeControl.value;
+      const document = documentControl.value;
+
+      if (personType === 'PF') {
+        this.isDocumentValid = cpfValidator()(document) === null;
+        documentControl.setValidators([Validators.required, cpfValidator()]);
+      } else if (personType === 'PJ') {
+        this.isDocumentValid = cnpjValidator()(document) === null;
+        documentControl.setValidators([Validators.required, cnpjValidator()]);
+      } else {
+        this.isDocumentValid = false;
+        documentControl.setValidators(null);
       }
+
+      documentControl.updateValueAndValidity();
     }
   }
 
   onSubmit() {
-    if (this.loanForm && this.loanForm.valid && this.isDocumentValid) {
+    if (this.loanForm.valid && this.isDocumentValid) {
       const loanValue = this.loanForm.get('loanValue')?.value;
       const activeDebt = this.loanForm.get('activeDebt')?.value;
 
@@ -60,20 +64,29 @@ export class LoanFormComponent implements OnInit {
         return;
       }
 
-      this.http.post<any>('http://localhost:3000/loan', this.loanForm.value)
+      const loanData: Loan = {
+        personType: this.loanForm.get('personType')?.value,
+        document: this.loanForm.get('document')?.value,
+        name: this.loanForm.get('name')?.value,
+        documentNumber: '',
+        activeDebt: this.loanForm.get('activeDebt')?.value,
+        loanValue: loanValue
+      };
+
+      this.http.post<any>('http://localhost:3000/loan', loanData)
         .toPromise()
         .then((response: any) => {
           if (response && response.documentNumber) {
             alert('Empréstimo aprovado');
-            this.loanId = response.documentNumber;
           } else {
             alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
           }
+
+
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     }
   }
-
 }
