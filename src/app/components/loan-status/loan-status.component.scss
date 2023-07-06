@@ -1,0 +1,48 @@
+.loan-status {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(45deg, #007BFF, #6C757D);
+  color: white;
+
+  .modal-content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .modal-body {
+    margin-bottom: 20px;
+  }
+
+  .modal-footer {
+    justify-content: center;
+  }
+
+  .modal-success {
+    color: #155724;
+  }
+
+  .modal-error {
+    color: #721c24;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+  }
+
+  .btn-primary {
+    background-color: #6C757D;
+  }
+}

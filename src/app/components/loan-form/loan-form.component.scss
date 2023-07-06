@@ -1,0 +1,38 @@
+.loan-form {
+  // Gradiente linear com ângulo de 45 graus, começando de azul e terminando em roxo
+  background: linear-gradient(45deg, #007BFF, #6C757D);
+  // Preenchimento extra para distanciar os campos do formulário das bordas
+  padding: 20px;
+  // Arredondar os cantos do formulário
+  border-radius: 8px;
+  // Aplica cor branca ao texto dentro do formulário para melhor contraste com o fundo escuro
+  color: white;
+
+  .form-group {
+      // Adiciona espaço extra entre os grupos de formulário
+      margin-bottom: 15px;
+  }
+
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    height: 30px;  // Reduz o tamanho vertical dos campos
+  }
+
+  .btn-primary {
+    background-color: #6C757D;
+    padding: 5px 10px;  // Reduz o tamanho do botão
+    font-size: 14px;  // Reduz o tamanho da fonte do botão
+  }
+
+  .text-danger {
+    color: #dc3545;
+  }
+
+  // Centraliza verticalmente o formulário no meio da tela
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

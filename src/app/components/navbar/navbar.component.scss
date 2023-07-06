@@ -1,0 +1,45 @@
+// navbar.component.scss
+
+.navbar {
+  background-color: #007BFF;
+  color: white;
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.navbar-toggler {
+  color: white;
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-color: white;
+}
+
+.navbar-nav {
+  margin-top: 10px;
+}
+
+.nav-item {
+  margin-right: 10px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #BBDEFB;
+}
+
+.active {
+  color: #BBDEFB;
+}
+
