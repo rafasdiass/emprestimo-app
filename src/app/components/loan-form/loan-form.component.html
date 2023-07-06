@@ -33,5 +33,24 @@
     <label class="form-label">Valor do empréstimo:</label>
     <input id="loanValue" type="number" [(ngModel)]="loanForm.loanValue" name="loanValue" class="form-control" placeholder="Digite o valor do empréstimo">
   </div>
-  <button type="submit" class="btn btn-primary">Enviar</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit(content)">Enviar</button>
+
+
 </div>
+
+<!-- The Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Solicitação de Empréstimo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Solicitação enviada para análise, verifique o status do empréstimo</p>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+  </div>
+</ng-template>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { cpf as CPF, cnpj as CNPJ } from 'cpf-cnpj-validator';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Loan, PersonType } from '../../models/loan.model';
 import { LoanService } from '../../services/loan.service';
 
@@ -18,11 +19,9 @@ export class LoanFormComponent {
   };
 
   isDocumentValid: boolean = false;
-
-  // Nova propriedade
   hideCPF: boolean = false;
 
-  constructor(private loanService: LoanService) {}
+  constructor(private loanService: LoanService, private modalService: NgbModal) {}
 
   onPersonTypeChange() {
     this.updateDocumentValidity();
@@ -44,7 +43,7 @@ export class LoanFormComponent {
     }
   }
 
-  onSubmit() {
+  onSubmit(content: any) {
     const loanValue = Number(this.loanForm.loanValue);
     const activeDebt = Number(this.loanForm.activeDebt);
 
@@ -65,9 +64,9 @@ export class LoanFormComponent {
 
       this.loanService.createLoan(loanData)
       .subscribe((response: any) => {
-        console.log('Resposta do servidor:', response);  
+        console.log('Resposta do servidor:', response);
         if (response && response.message) {
-          alert(response.message);
+          this.openModal(content);
         } else {
           alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
         }
@@ -75,5 +74,13 @@ export class LoanFormComponent {
         console.error('Error:', error);
       });
     }
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content).result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      console.log(`Dismissed with: ${reason}`);
+    });
   }
 }
