@@ -19,7 +19,7 @@
       <input type="checkbox" [(ngModel)]="hideCPF" name="hideCPF" id="hideCPF" class="form-check-input">
       <label class="form-check-label" for="hideCPF">Ocultar CPF/CNPJ</label>
     </div>
-    <div *ngIf="!isDocumentValid" class="text-danger">Documento (CPF/CNPJ) inválido!</div>
+    <div *ngIf="!isDocumentValid" class="text-danger form-error">Documento (CPF/CNPJ) inválido!</div>
   </div>
   <div class="mb-3">
     <label class="form-label">Número do Documento:</label>

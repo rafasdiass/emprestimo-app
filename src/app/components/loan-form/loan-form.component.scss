@@ -11,7 +11,8 @@ body, html {
 }
 
 .container-card {
-  margin-top: 10rem; // ou qualquer valor desejado para o espaçamento superior
+  margin-top: 10rem;
+  margin-left: 2rem;
 }
 
 .form-group {
@@ -26,6 +27,7 @@ body, html {
 .form-control {
   padding: 10px;
   width: 100%;
+  max-width: 500px; /* Valor desejado para a largura máxima */
   border: none;
   border-radius: 5px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -63,4 +65,16 @@ body, html {
   &:hover {
     background: #2980b9;
   }
+}
+.form-wrapper {
+  padding-right: 2rem; /* Valor da margem interna direita */
+  padding-left: 2rem; /* Valor da margem interna esquerda */
+}
+.form-error {
+  color: #b60000; /* Cor vermelha */
+  font-family: "Arial", sans-serif;
+  font-weight: bold; /* Negrito */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-top: 5px; /* Espaçamento superior */
+  text-shadow: 1px 1px 1px #000000; /* Adiciona sombra preta */
 }

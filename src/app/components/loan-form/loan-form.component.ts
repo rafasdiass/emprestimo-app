@@ -58,14 +58,14 @@ export class LoanFormComponent {
         personType: this.loanForm.personType as PersonType,
         document: this.loanForm.document!,
         name: this.loanForm.name!,
-        documentNumber: this.loanForm.documentNumber!,  // Adicione documentNumber ao formulário e atualize aqui
+        documentNumber: this.loanForm.documentNumber!,
         activeDebt: activeDebt,
         loanValue: loanValue
       };
 
       this.loanService.createLoan(loanData)
       .subscribe((response: any) => {
-        console.log('Resposta do servidor:', response);  // Novo console.log
+        console.log('Resposta do servidor:', response);  
         if (response && response.message) {
           alert(response.message);
         } else {
