@@ -1,16 +1,31 @@
 <!-- loan-status.component.html -->
 
-<div>
-  <label>NOME: </label>
-  <input [(ngModel)]="name" placeholder="Enter your name">
+<div class="mb-3">
+  <label class="form-label">Nome:</label>
+  <input type="text" class="form-control" [(ngModel)]="name" placeholder="Digite seu nome">
 </div>
-<div>
-  <label>CPF/CNPJ: </label>
-  <input [(ngModel)]="documentNumber" placeholder="Enter your document number">
+<div class="mb-3">
+  <label class="form-label">CPF/CNPJ:</label>
+  <input type="text" class="form-control" [(ngModel)]="documentNumber" placeholder="Digite o número do seu documento">
 </div>
-<button (click)="onCheckStatus()">Check Loan Status</button>
+<button type="button" class="btn btn-primary" (click)="onCheckStatus()">Verificar status do empréstimo</button>
 
-<div *ngIf="loanStatusResponse">
-  <p>Your loan status: {{ loanStatusResponse.status }}</p>
-  <p>Your loan ID: {{ loanStatusResponse.loanId }}</p>
+<!-- Inicio do Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">Status do Empréstimo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body" *ngIf="loanStatusResponse">
+        <p>O status do seu empréstimo é: {{ loanStatusResponse.status }}</p>
+        <p>O ID do seu empréstimo é: {{ loanStatusResponse.loanId }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- Fim do Modal -->
