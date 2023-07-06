@@ -1,3 +1,4 @@
+// navbar.component.ts
 import { Component, HostListener } from '@angular/core';
 
 @Component({
@@ -12,12 +13,8 @@ export class NavbarComponent {
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
     // Fecha o menu se o clique ocorrer fora do elemento do menu
-    if (!target.closest('.navbar-collapse')) {
+    if (!target.closest('.navbar')) {
       this.isNavbarCollapsed = true;
     }
-  }
-
-  toggleNavbar(): void {
-    this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 }

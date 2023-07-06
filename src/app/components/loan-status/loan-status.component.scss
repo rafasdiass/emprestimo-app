@@ -1,48 +1,78 @@
-.loan-status {
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(45deg, #007BFF, #6C757D);
+  align-items: center; // centraliza verticalmente
+  justify-content: center; // centraliza horizontalmente
+  background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59); // Adicionando background degradê
+  color: #fff;
+}
+
+// Adicione uma nova classe de container para centralizar o conteúdo
+.container {
+  text-align: center;
+  width: 50%; // Use um valor que funcione para o seu design
+  margin-top: 70px; // Adicionando a margem no topo
+
+  // Consulta de mídia para ajustar a margem superior para telas menores
+  @media (max-width: 768px) {
+    margin-top: 120px; // Ajuste este valor conforme necessário
+  }
+}
+
+// Estilos para os inputs
+input[type=text] {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+// Estilo para o botão
+button {
+  background-color: #4CAF50; /* Verde */
+  border: none;
   color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
 
-  .modal-content {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
+button:hover {
+  background-color: #45a049;
+}
+
+// Estilos para o modal
+.modal-content {
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+.modal-title {
+  color: #f64f59; /* Cor rosada */
+}
+
+.btn-close {
+  color: #fff;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
   }
+}
 
-  .modal-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+.btn-secondary {
+  background-color: #c471ed; /* Cor lilás */
 
-  .modal-body {
-    margin-bottom: 20px;
-  }
-
-  .modal-footer {
-    justify-content: center;
-  }
-
-  .modal-success {
-    color: #155724;
-  }
-
-  .modal-error {
-    color: #721c24;
-  }
-
-  .form-label {
-    font-weight: bold;
-  }
-
-  .form-control {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-  }
-
-  .btn-primary {
-    background-color: #6C757D;
+  &:hover {
+    background-color: #9c34c9; /* Cor roxa */
   }
 }

@@ -1,5 +1,5 @@
 <!-- loan-status.component.html -->
-
+<div class="container">
 <div class="mb-3">
   <label class="form-label">Nome:</label>
   <input type="text" class="form-control" [(ngModel)]="name" placeholder="Digite seu nome">
@@ -9,7 +9,7 @@
   <input type="text" class="form-control" [(ngModel)]="documentNumber" placeholder="Digite o número do seu documento">
 </div>
 <button type="button" class="btn btn-primary" (click)="onCheckStatus()">Verificar status do empréstimo</button>
-
+</div>
 <!-- Inicio do Modal -->
 <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
   <div class="modal-dialog">
