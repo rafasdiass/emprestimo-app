@@ -4,6 +4,28 @@ Este projeto, criado por Rafael de Souza, é um aplicativo de empréstimos desen
 
 O sistema permite que os usuários insiram informações pessoais e solicitem empréstimos. Essas informações são validadas e a solicitação é enviada para análise. O sistema também possui uma funcionalidade para verificar o status do empréstimo.
 
+## Iniciando
+
+Para usar este projeto, siga os seguintes passos:
+
+1. Clone o repositório em seu local de trabalho:
+
+    ```
+    git clone https://github.com/rafasdiass/emprestimo-app.git
+    ```
+
+2. Navegue até o diretório do projeto:
+
+    ```
+    cd emprestimo-app
+    ```
+
+3. Instale as dependências do projeto:
+
+    ```
+    npm install
+    ```
+
 ## Servidor de Desenvolvimento
 
 Execute `ng serve` para iniciar o servidor de desenvolvimento. Navegue até `http://localhost:4200/`. O aplicativo será recarregado automaticamente se você alterar qualquer um dos arquivos-fonte.
