@@ -12,24 +12,22 @@
     <label class="form-check-label" for="hideCPF">Ocultar CPF/CNPJ:</label>
     <input type="checkbox" id="hideCPF" [(ngModel)]="hideCPF" class="form-check-input">
   </div>
-  <button type="button" class="btn btn-primary" (click)="onCheckStatus()">Verificar status do empréstimo</button>
+  <button type="button" class="btn btn-primary" (click)="onCheckStatus(content)">Verificar status do empréstimo</button>
 </div>
-<!-- Inicio do Modal -->
-<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="statusModalLabel">Status do Empréstimo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body" *ngIf="loanStatusResponse">
-        <p>O status do seu empréstimo é: {{ loanStatusResponse.status }}</p>
-        <p>O ID do seu empréstimo é: {{ loanStatusResponse.loanId }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-    </div>
+
+<!-- The content of the modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Status do Empréstimo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
-<!-- Fim do Modal -->
+  <div class="modal-body">
+    <p>O status do seu empréstimo é: {{ loanStatusResponse?.status }}</p>
+    <p>O ID do seu empréstimo é: {{ loanStatusResponse?.loanId }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+  </div>
+</ng-template>
