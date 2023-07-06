@@ -1,65 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+// loan-status.component.ts
+
+import { Component } from '@angular/core';
 import { LoanService } from '../../services/loan.service';
+import { LoanStatusResponse } from '../../models/loanstatusresponse.model';
 
 @Component({
   selector: 'app-loan-status',
   templateUrl: './loan-status.component.html',
   styleUrls: ['./loan-status.component.scss']
 })
-export class LoanStatusComponent implements OnInit {
-  loanForm: FormGroup;
-  loanStatus: string = '';
+export class LoanStatusComponent {
+  name: string = '';
+  documentNumber: string = '';
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private loanService: LoanService
-  ) {
-    this.loanForm = this.formBuilder.group({
-      name: '',
-      documentNumber: '',
-    });
-  }
+  loanStatusResponse: LoanStatusResponse | null = null;
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.loanForm.patchValue({
-        name: params['name'],
-        documentNumber: params['documentNumber'],
+  constructor(private loanService: LoanService) { }
+
+  onCheckStatus() {
+    this.loanService.getLoanStatus(this.name, this.documentNumber)
+      .subscribe((response: LoanStatusResponse) => {
+        this.loanStatusResponse = response;
+      }, (error) => {
+        console.error('Error:', error);
+        this.loanStatusResponse = null;
       });
-      if (params['name'] && params['documentNumber']) {
-        this.checkLoanStatus();
-      }
-    });
-  }
-
-  onSubmit() {
-    const name = this.loanForm.get('name')?.value;
-    const documentNumber = this.loanForm.get('documentNumber')?.value;
-
-    if (name && documentNumber) {
-      this.loanService.getLoanStatus(documentNumber)
-        .subscribe((response: any) => {
-          this.loanStatus = response.status;
-        }, (error) => {
-          console.error('Error:', error);
-        });
-    }
-  }
-
-  checkLoanStatus() {
-    const name = this.loanForm.get('name')?.value;
-    const documentNumber = this.loanForm.get('documentNumber')?.value;
-
-    if (name && documentNumber) {
-      this.loanService.getLoanStatus(documentNumber)
-        .subscribe((response: any) => {
-          this.loanStatus = response.status;
-        }, (error) => {
-          console.error('Error:', error);
-        });
-    }
   }
 }

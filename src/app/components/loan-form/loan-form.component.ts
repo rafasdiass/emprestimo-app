@@ -50,25 +50,26 @@ export class LoanFormComponent {
         alert('Empréstimo negado');
         return;
       }
-
+      
       const loanData: Loan = {
         personType: this.loanForm.personType as PersonType,
         document: this.loanForm.document!,
         name: this.loanForm.name!,
-        documentNumber: this.loanForm.document!,
+        documentNumber: this.loanForm.documentNumber!,  // Adicione documentNumber ao formulário e atualize aqui
         activeDebt: activeDebt,
         loanValue: loanValue
       };
 
       this.loanService.createLoan(loanData)
-        .subscribe((response: any) => {
-          if (response && response.message) {
-            alert(response.message);
-          } else {
-            alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
-          }
-        }, (error) => {
-          console.error('Error:', error);
-        });
+      .subscribe((response: any) => {
+        console.log('Resposta do servidor:', response);  // Novo console.log
+        if (response && response.message) {
+          alert(response.message);
+        } else {
+          alert('Empréstimo aprovado, mas não foi possível obter o número do documento.');
+        }
+      }, (error) => {
+        console.error('Error:', error);
+      });
     }
   }}

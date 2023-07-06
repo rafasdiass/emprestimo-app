@@ -7,9 +7,13 @@
     </select>
   </div>
   <div class="form-group">
-    <label for="document">Documento:</label>
+    <label for="document">numero de cpf/cnpj:</label>
     <input id="document" type="text" [(ngModel)]="loanForm.document" (change)="onDocumentChange()" name="document" class="form-control">
     <div *ngIf="!isDocumentValid" class="text-danger">Documento (CPF/CNPJ) inválido!</div>
+  </div>
+  <div class="form-group">
+    <label for="documentNumber">Número do Documento:</label>
+    <input id="documentNumber" type="text" [(ngModel)]="loanForm.documentNumber" name="documentNumber" class="form-control">
   </div>
   <div class="form-group">
     <label for="name">Nome:</label>

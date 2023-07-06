@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { Loan } from '../models/loan.model';
+import { LoanStatusResponse } from '../models/loanstatusresponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class LoanService {
     return this.httpClient.post(`${this.baseURL}/loan`, loan);
   }
 
-  getLoanStatus(id: string): Observable<any> {
-    return this.httpClient.get(`${this.baseURL}/loan-status/${id}`);
+  getLoanStatus(name: string, documentNumber: string): Observable<LoanStatusResponse> {
+    const params = new HttpParams().set('name', name).set('documentNumber', documentNumber);
+    return this.httpClient.get<LoanStatusResponse>(`${this.baseURL}/loan-status`, { params });
   }
 }
