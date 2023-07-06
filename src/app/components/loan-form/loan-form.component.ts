@@ -19,6 +19,9 @@ export class LoanFormComponent {
 
   isDocumentValid: boolean = false;
 
+  // Nova propriedade
+  hideCPF: boolean = false;
+
   constructor(private loanService: LoanService) {}
 
   onPersonTypeChange() {
@@ -50,7 +53,7 @@ export class LoanFormComponent {
         alert('Empréstimo negado');
         return;
       }
-      
+
       const loanData: Loan = {
         personType: this.loanForm.personType as PersonType,
         document: this.loanForm.document!,
@@ -72,4 +75,5 @@ export class LoanFormComponent {
         console.error('Error:', error);
       });
     }
-  }}
+  }
+}

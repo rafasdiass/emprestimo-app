@@ -1,31 +1,40 @@
-<form class="loan-form" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="person-type">Tipo de pessoa:</label>
-    <select id="person-type" [(ngModel)]="loanForm.personType" (change)="onPersonTypeChange()" name="personType" class="form-control">
-      <option value="PF">Pessoa Física</option>
-      <option value="PJ">Pessoa Jurídica</option>
-    </select>
+<div class="form-container">
+  <form class="loan-form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="person-type">Tipo de pessoa:</label>
+      <select id="person-type" [(ngModel)]="loanForm.personType" (change)="onPersonTypeChange()" name="personType" class="form-control">
+        <option value="PF">Pessoa Física</option>
+        <option value="PJ">Pessoa Jurídica</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="name">Nome:</label>
+      <input id="name" type="text" [(ngModel)]="loanForm.name" name="name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="document">Número de CPF/CNPJ:</label>
+      <div class="input-wrapper">
+        <input [type]="hideCPF ? 'password' : 'text'" id="document" [(ngModel)]="loanForm.document" (change)="onDocumentChange()" name="document" class="form-control">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" [(ngModel)]="hideCPF" name="hideCPF" id="hideCPF" class="hide-cpf-checkbox">
+          <label for="hideCPF" class="hide-cpf-label">Marque para esconder CPF/CNPJ</label>
+        </div>
+      </div>
+      <div *ngIf="!isDocumentValid" class="text-danger">Documento (CPF/CNPJ) inválido!</div>
+    </div>
+    <div class="form-group">
+      <label for="documentNumber">Número do Documento:</label>
+      <input id="documentNumber" type="text" [(ngModel)]="loanForm.documentNumber" name="documentNumber" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="activeDebt">Dívida ativa:</label>
+      <input id="activeDebt" type="number" [(ngModel)]="loanForm.activeDebt" name="activeDebt" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="loanValue">Valor do empréstimo:</label>
+      <input id="loanValue" type="number" [(ngModel)]="loanForm.loanValue" name="loanValue" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
   </div>
-  <div class="form-group">
-    <label for="document">numero de cpf/cnpj:</label>
-    <input id="document" type="text" [(ngModel)]="loanForm.document" (change)="onDocumentChange()" name="document" class="form-control">
-    <div *ngIf="!isDocumentValid" class="text-danger">Documento (CPF/CNPJ) inválido!</div>
-  </div>
-  <div class="form-group">
-    <label for="documentNumber">Número do Documento:</label>
-    <input id="documentNumber" type="text" [(ngModel)]="loanForm.documentNumber" name="documentNumber" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="name">Nome:</label>
-    <input id="name" type="text" [(ngModel)]="loanForm.name" name="name" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="activeDebt">Dívida ativa:</label>
-    <input id="activeDebt" type="number" [(ngModel)]="loanForm.activeDebt" name="activeDebt" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="loanValue">Valor do empréstimo:</label>
-    <input id="loanValue" type="number" [(ngModel)]="loanForm.loanValue" name="loanValue" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-primary">Enviar</button>
-</form>
